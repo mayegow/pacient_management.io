@@ -1,0 +1,104 @@
+import {useState, useEffect} from 'react'
+
+const Formulario = () => {
+    /**
+     * los hooks deben ir antes del return
+     * no deben ir dentro de condicionales
+     * no deben ir despues de un return 
+     * deben estar dentro de la funcion o clase del componente
+     */
+    const [name, setName] = useState('')
+    const [propietary, setPropietary] = useState('')
+    const [email, setEmail] = useState('')
+    const [date, setDate] = useState('')
+    const [synthoms, setSynthoms] = useState('')
+    const [pacient, setPacient] = useState({})
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        console.log("sending form")
+    }
+
+    // const [client, setClient] = useState({})
+    // const [clients, setClients] = useState([])
+    
+
+    return (
+        <div className="md:w-1/2 lg:w-2/5 mt-10">
+            <h2 className="font-black text-3xl text-center">
+            Seguimiento Pacientes
+            </h2>
+            <p className="text-lg mt-5 text-center mb-10"> Añade pacientes y {""}
+                <span className="text-indigo-600 font-bold">Administralos</span>
+            </p>
+            <form 
+            onSubmit={handleSubmit}
+            className="bg-white shadow-md rounded-lg py-10 px-5 mx-5">
+                <div className="mb-5">
+                    <label htmlFor="mascota" className="block text-gray-700 uppercase font-bold"> Nombre de la mascota</label>
+                    <input
+                        id="mascota"
+                        className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                        type="text"
+                        placeholder="Nombre de la mascota"
+                        value={name}
+                        onChange={(e) => setName(e.target.value) }
+
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="propietario" className="block text-gray-700 uppercase font-bold"> Nombre del propietario</label>
+                    <input
+                        id="propietario"
+                        className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                        type="text"
+                        placeholder="Nombre del propietario"
+                        value={propietary}
+                        onChange={(e) => setPropietary(e.target.value)}
+
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="email" className="block text-gray-700 uppercase font-bold"> Email </label>
+                    <input
+                        id="email"
+                        className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                        type="email"
+                        placeholder="Email contacto propietario"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value) } 
+
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="date" className="block text-gray-700 uppercase font-bold"> Alta </label>
+                    <input
+                        id="date"
+                        className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                        type="date"
+                        value={date}
+                        onChange={(e) => setDate(e.target.value)}
+
+                    />
+                </div>
+                <div className="mb-5">
+                    <label htmlFor="sintomas" className="block text-gray-700 uppercase font-bold"> Síntomas </label>
+                    <textarea
+                    id="sintomas"
+                    className="border-2 w-full p-2 mt-2 placeholder-gray-400 rounded-md"
+                    placeholder="Síntomas"
+                    value={synthoms}
+                    onChange={(e) => setSynthoms(e.target.value) }
+                    ></textarea>
+                </div>
+                <input
+                    type="submit"
+                    className="bg-indigo-600 p-3 w-full text-white uppercase font-bold hover:bg-indigo-800 cursor-pointer transition-all"
+                    value="Agregar paciente"
+                />
+
+            </form>
+        </div>
+    )
+}
+export default Formulario
