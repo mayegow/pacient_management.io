@@ -2,6 +2,8 @@
 
 ---
 This project is a patience list to veterinary
+This project run on ReactJs
+This project create with vite 4.4.5
 ---
 
 # How to run
