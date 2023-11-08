@@ -1,6 +1,7 @@
 import {useState, useEffect} from 'react'
+import Error from './Error'
 
-const Formulario = () => {
+const Formulario = ({patients, setPatients, patience, setPatience}) => {
     /**
      * los hooks deben ir antes del return
      * no deben ir dentro de condicionales
@@ -12,11 +13,65 @@ const Formulario = () => {
     const [email, setEmail] = useState('')
     const [date, setDate] = useState('')
     const [synthoms, setSynthoms] = useState('')
+    const [alert, setAlert] = useState(false)
     const [pacient, setPacient] = useState({})
+    
+    useEffect(() => {
+        if(Object.keys(patience).length > 0){
+            setName(patience.name)
+            setPropietary(patience.propietary)
+            setEmail(patience.email)
+            setDate(patience.date)
+            setSynthoms(patience.synthoms)
+        }
+
+    },[/*DEPENDENCIAS*/ patience])
+
+
+    const generarId = () => {
+        const random = Math.random().toString(36).substr(2)
+        const date = Date.now().toString(36).substr(2)
+
+        return date+random
+    }
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log("sending form")
+        const fields = [name, propietary, email, date, synthoms]
+        if (fields.includes("")){
+            setAlert(true)
+            return
+        } 
+        setAlert(false)
+
+        // Object patience
+
+        const objectPatience = {
+            name,
+            propietary,
+            email,
+            date,
+            synthoms,
+        }
+
+        if (patience.id){
+            // editando el registro
+            objectPatience.id = patience.id
+            const updatePatience = patients.map(patienceState => patienceState.id === patience.id ? objectPatience : patienceState)
+            setPatients(updatePatience)
+            setPatience({})
+        } else{
+            // nuevo registro
+            objectPatience.id = generarId()
+            setPatients([...patients, objectPatience])
+        }
+        // reiniciar form
+        setName('')
+        setPropietary('')
+        setEmail('')
+        setDate('')
+        setSynthoms('')
+
     }
 
     // const [client, setClient] = useState({})
@@ -34,6 +89,11 @@ const Formulario = () => {
             <form 
             onSubmit={handleSubmit}
             className="bg-white shadow-md rounded-lg py-10 px-5 mx-5">
+                {alert &&
+                    <Error> 
+                        <p>Todos los campos son obligatorios</p> 
+                    </Error>
+                }
                 <div className="mb-5">
                     <label htmlFor="mascota" className="block text-gray-700 uppercase font-bold"> Nombre de la mascota</label>
                     <input
@@ -91,10 +151,11 @@ const Formulario = () => {
                     onChange={(e) => setSynthoms(e.target.value) }
                     ></textarea>
                 </div>
+                
                 <input
                     type="submit"
                     className="bg-indigo-600 p-3 w-full text-white uppercase font-bold hover:bg-indigo-800 cursor-pointer transition-all"
-                    value="Agregar paciente"
+                    value={patience.id ? "Editar Paciente" : "Agregar paciente"}
                 />
 
             </form>
